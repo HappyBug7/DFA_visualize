@@ -8,8 +8,8 @@ function getStateId() {
 
 class NFAState {
   constructor() {
-    this.transitions = [];
     this.id = getStateId();
+    this.transitions = [];
   }
 
   addTransition(symbol, state) {
@@ -36,10 +36,10 @@ function buildFromStar(ast) {
   const start = new NFAState();
   const accept = new NFAState();
 
-  start.addTransition(null, nfa.start);
-  start.addTransition(null, accept);
-  nfa.accept.addTransition(null, nfa.start);
-  nfa.accept.addTransition(null, accept);
+  start.addTransition('ε', nfa.start);
+  start.addTransition('ε', accept);
+  nfa.accept.addTransition('ε', nfa.start);
+  nfa.accept.addTransition('ε', accept);
 
   return new NFA(start, accept);
 }
@@ -48,7 +48,7 @@ function buildFromConcat(ast) {
   const leftNFA = buildFromAST(ast.left);
   const rightNFA = buildFromAST(ast.right);
 
-  leftNFA.accept.addTransition(null, rightNFA.start);
+  leftNFA.accept.addTransition('ε', rightNFA.start);
 
   return new NFA(leftNFA.start, rightNFA.accept);
 }
@@ -60,10 +60,10 @@ function buildFromUnion(ast) {
   const start = new NFAState();
   const accept = new NFAState();
 
-  start.addTransition(null, leftNFA.start);
-  start.addTransition(null, rightNFA.start);
-  leftNFA.accept.addTransition(null, accept);
-  rightNFA.accept.addTransition(null, accept);
+  start.addTransition('ε', leftNFA.start);
+  start.addTransition('ε', rightNFA.start);
+  leftNFA.accept.addTransition('ε', accept);
+  rightNFA.accept.addTransition('ε', accept);
 
   return new NFA(start, accept);
 }

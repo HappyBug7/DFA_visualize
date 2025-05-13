@@ -3,7 +3,7 @@ import './assets/main.css'
 import { createApp } from 'vue'
 import App from './App.vue'
 import { createStore } from 'vuex'
-import { Parser } from './ast/parser'
+import naive from 'naive-ui'
 
 const store = createStore({
   state: {
@@ -51,8 +51,7 @@ const store = createStore({
 })
 
 const app = createApp(App)
-const parser = new Parser()
-parser.display(parser.parse('(a|b)c*'))
 
 app.use(store)
+app.use(naive)
 app.mount('#app')
